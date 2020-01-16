@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 /**
+ * 
+ * ************从网络复制的代码用于学习怎样使用commandar,正式发布将会删除此文件***************
+ * 
  * 利用百度翻译接口实现一个小小的翻译软件。
  */
 const superagent = require('superagent');
