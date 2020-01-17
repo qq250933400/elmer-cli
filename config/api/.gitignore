@@ -5,3 +5,6 @@ yarn.lock
 /example/
 /lib/
 /mochawesome-report/
+package-lock.json
+.DS_Store
+/**/*/.DS_Store

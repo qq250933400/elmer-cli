@@ -6,7 +6,9 @@
     "main": "lib/index.js",
     "module": "lib/index.js",
     "scripts": {
-        "test": "mocha ./test/**/*.test.js --reporter mochawesome",
+        "testReport": "mocha ./test/index.test.js ./test/**/*.test.js --reporter mochawesome",
+        "test": "mocha  --reporter mochawesome",
+        "cover": "nyc --reporter=html mocha",
         "lib": "tsc -w",
         "build": "tsc",
         "static": "node ./bin/index.js --static"
@@ -17,6 +19,29 @@
     ],
     "author": "elmer s j mo",
     "license": "ISC",
+    "nyc": {
+        "include": [
+            "src/**/*.ts",
+            "src/**/*.tsx"
+        ],
+        "exclude": [
+            "**/*.d.ts"
+        ],
+        "extension": [
+            ".ts",
+            ".tsx"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "text",
+            "html"
+        ],
+        "sourceMap": true,
+        "instrument": true,
+        "all": true
+    },
     "devDependencies": {
         "babel-loader": "^7.1.5",
         "babel-polyfill": "^6.26.0",
