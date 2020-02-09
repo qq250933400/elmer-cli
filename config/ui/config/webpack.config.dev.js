@@ -1,7 +1,7 @@
 const path = require('path');
 const merge = require('webpack-merge');
 // 引入通用webpack配置文件
-const common = require('./webpack.common.js');
+const common = require("./webpack.common");
 const webpack = require("webpack");
 
 // const Dashboard = require("webpack-dashboard");

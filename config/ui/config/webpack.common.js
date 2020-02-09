@@ -3,7 +3,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
-const { HtmlParse } = require("elmer-ui-core/lib/virtualDom/htmlParse");
+const { HtmlParse } = require("elmer-virtual-dom");
 const parseObj = new HtmlParse();
 // 对babel的配置，内容同.babelrc文件
 const babelOptions = {
@@ -64,7 +64,7 @@ module.exports = {
                         loader: 'ts-loader'
                     },
                     {
-                        loader: path.resolve("./node_modules/elmer-ui-core/lib/loader/TPLoader.js"),
+                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/TPLoader.js"),
                         options: {
                             parse: function(source) {
                                 return parseObj.parse(source);
@@ -85,7 +85,19 @@ module.exports = {
             },
             {
                 test: /\.less$/i,
+                // use: [
+                //     'style-loader',
+                //     'css-loader',
+                //     'postcss-loader',
+                //     {
+                //         loader: 'less-loader',
+                //         options: {
+                //             javascriptEnabled: true,
+                //         },
+                //     },
+                // ]
                 use: ExtractTextWebpackPlugin.extract({
+                    fallback: "style-loader",
                     use: [
                         "css-loader",
                         'postcss-loader',
@@ -108,7 +120,7 @@ module.exports = {
                 test: /\.(html|htm)$/i,
                 use : [
                     {
-                        loader: path.resolve("./node_modules/elmer-ui-core/lib/loader/HtmlLoader.js"),
+                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/HtmlLoader.js"),
                         options: {
                             parse: function(source) {
                                 return parseObj.parse(source);
