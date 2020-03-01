@@ -8,13 +8,60 @@ const supportProjects = [
         message: "创建UI开发项目",
         sourcePath: "./ui",
         exec: apiBuilder,
-        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/]
+        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/],
+        npmignore: [
+            "/node_modules/",
+            "/dist/",
+            "/bin/",
+            "/src/",
+            "/config/",
+            "/lib/assets/",
+            "./yarn.lock",
+            ".DS_Store",
+            "/**/*/.DS_Store"
+        ],
+        gitignore: [
+            "/node_modules/",
+            "/dist/",
+            "/lib/",
+            "yarn.lock",
+            "yarn-error.log",
+            "package-lock.json",
+            "",
+            ".DS_Store",
+            "/**/*/.DS_Store",
+        ]
     }, {
         code: "B",
         message: "创建API开发项目",
         sourcePath: "./api",
         exec: apiBuilder,
-        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/]
+        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/],
+        npmignore: [
+            "/src/",
+            "/node_modules/",
+            "/.vscode/",
+            "/mochawesome-report/",
+            "/test/",
+            "yarn-error.log",
+            "yarn.lock",
+            "package-lock.json",
+            ".DS_Store",
+            "/**/*/.DS_Store"
+        ],
+        gitignore: [
+            "/node_modules/",
+            "/demo/",
+            "/.vscode/",
+            "yarn.lock",
+            "/example/",
+            "/lib/",
+            "/mochawesome-report/",
+            "package-lock.json",
+            ".DS_Store",
+            "/**/*/.DS_Store"
+
+        ]
     },{
         code: "C",
         message: "创建服务端渲染项目",
