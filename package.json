@@ -2,19 +2,26 @@
   "name": "elmer-cli",
   "version": "1.0.3",
   "description": "cli tool for elmer-ui-app",
-  "main": "index.js",
+  "typings": "lib/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "bin": {
-    "elmer-cli": "./bin/index.js"
+    "elmer-cli": "./bin/index.js",
+    "elmer-start": "./bin/cmd.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node ./bin/index.js"
+    "dev": "node ./bin/index.js",
+    "start": "node ./bin/cmd.js",
+    "build": "node ./bin/cmd.js"
   },
   "author": "250933400@qq.com",
   "license": "ISC",
   "dependencies": {
     "cli-color": "^2.0.0",
     "commander": "^4.1.0",
+    "elmer-common": "^0.1.6",
+    "elmer-virtual-dom": "^1.0.4",
     "inquirer": "^7.0.3",
     "shelljs": "^0.8.3",
     "superagent": "^5.2.1"
