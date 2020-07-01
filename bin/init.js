@@ -1,7 +1,7 @@
 const program = require("commander");
 const inquirer = require("inquirer");
 const color = require("cli-color");
-const apiBuilder = require("../lib/ApiBuilder");
+const apiBuilder = require("../lib/builder").default;
 const supportProjects = [
     {
         code: "A",
@@ -9,6 +9,7 @@ const supportProjects = [
         sourcePath: "./ui",
         exec: apiBuilder,
         ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/],
+        dependencies: ["elmer-ui-core", "elmer-common", "elmer-virtual-dom", "elmer-common-ui"],
         npmignore: [
             "/node_modules/",
             "/dist/",
@@ -103,42 +104,36 @@ const inputProjectName = (fn, msg) => {
     });
 };
 
-program.version("1.0.0")
-    .option("-y, --yarn", "指定yarn为包管理器")
-    .command("init")
-    .description("创建项目")
-    .action(() => {
-        const codeList = [];
-        supportProjects.map((item) => {
-            codeList.push({
-                value: item.code.toUpperCase(),
-                name: "  [" + item.code.toUpperCase() + "] " + item.message
-            });
-        });
-        inputCode(codeList, (code) => {
-            let project;
-            if(code !== "Q") {
-                for(let i=0;i<supportProjects.length;i++) {
-                    if(code === supportProjects[i].code.toUpperCase()) {
-                        project = supportProjects[i];
-                        break;
-                    }
-                }
-                inputProjectName((name) => {
-                    const exec = project.exec;
-                    delete project.exec;
-                    project.name = name;
-                    project.yarn = program.yarn;
-                    if(typeof exec === "function") {
-                        exec(project);
-                    } else {
-                        console.log(color.red("[ERR] 创建项目失败，未配置exec执行函数"));
-                    }
-                });
-            } else {
-                console.log(color.red("[Exit] 取消操作!"));
-            }
+module.exports = ()=>{
+    const codeList = [];
+    supportProjects.map((item) => {
+        codeList.push({
+            value: item.code.toUpperCase(),
+            name: "  [" + item.code.toUpperCase() + "] " + item.message
         });
     });
-
-module.exports = program;
+    inputCode(codeList, (code) => {
+        let project;
+        if(code !== "Q") {
+            for(let i=0;i<supportProjects.length;i++) {
+                if(code === supportProjects[i].code.toUpperCase()) {
+                    project = supportProjects[i];
+                    break;
+                }
+            }
+            inputProjectName((name) => {
+                const exec = project.exec;
+                delete project.exec;
+                project.name = name;
+                project.yarn = program.yarn;
+                if(typeof exec === "function") {
+                    exec(project);
+                } else {
+                    console.log(color.red("[ERR] 创建项目失败，未配置exec执行函数"));
+                }
+            });
+        } else {
+            console.log(color.red("[Exit] 取消操作!"));
+        }
+    });
+}

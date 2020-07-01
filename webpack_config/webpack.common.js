@@ -18,25 +18,12 @@ const babelOptions = {
 }
 
 module.exports = {
-    entry: {
-        "./script/main": './src/index.ts',
-    },
     resolve:{
         extensions: ['.ts', '.js', '.json']
     },
     plugins:[
         new webpack.DefinePlugin({
             ENV: JSON.stringify(getCommand(process.argv, "env"))
-        }),
-        new htmlWebpackPlugin({
-            filename: "index.html",
-            template: "./src/index.html",
-            inject: true,
-            hash: true,
-            title: "Document",
-            minify:{
-                removeComments:true //是否压缩时 去除注释
-            }
         }),
         new ExtractTextWebpackPlugin('css/style[chunkhash:8].css', {
             allChunks: false

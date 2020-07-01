@@ -17,17 +17,17 @@ module.exports = merge(common, {
     // 使用 source-map
     devtool: 'source-map',
     // 对 webpack-dev-server 进行配置
-    devServer: {
-        contentBase: './src',
-        // 设置localhost端口
-        port: port,
-        // 自动打开浏览器
-        open: false,
-        quiet: false,
-        hot: true,
-        inline: true,
-        host:"0.0.0.0"
-    },
+    // devServer: {
+    //     contentBase: './src',
+    //     // 设置localhost端口
+    //     port: port,
+    //     // 自动打开浏览器
+    //     open: false,
+    //     quiet: false,
+    //     hot: true,
+    //     inline: true,
+    //     host:"0.0.0.0"
+    // },
     plugins: [
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
