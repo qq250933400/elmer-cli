@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+
 var webpackServer = require("../lib/webpack/server").default;
 var webpackBuild = require("../lib/webpack/build").default;
 var init = require("./init");
 var Command = require("../lib/command").default;
 var command = new Command(process.argv);
+
 
 command.version("1.0.0")
     .author("Elmer S J MO")

@@ -1,6 +1,25 @@
 import { getCommand, StaticCommon } from "elmer-common/lib/BaseModule/StaticCommon";
+import staticObj from "../static";
+
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+
+const initConfiguration = () => {
+    const rootPath = process.cwd();
+    const tsConfig = path.resolve(rootPath, "tsconfig.json");
+    const srcConfig = path.resolve(__dirname, "../../tsconfig.json");
+    // --- check tsconfig, if not exists then copy tsconfig.json to project folder
+    if(!staticObj.exists(tsConfig)) {
+        if(staticObj.exists(srcConfig)) {
+            const srcValue = staticObj.readFile(srcConfig);
+            staticObj.writeFile(tsConfig, srcValue);
+        }
+    }
+};
+export const portIsOccupied = (port, callback) => {
+    callback(true);
+}
+
 
 export default () => {
     const rootPath = process.cwd();
@@ -8,6 +27,7 @@ export default () => {
     const entryJS = getCommand(process.argv, "-e") || getCommand(process.argv, "--entry");
     const port = getCommand(process.argv, "port");
     const base = getCommand(process.argv, "-b") || getCommand(process.argv,"--base");
+    initConfiguration();
     return {
         devServer: {
             contentBase: !StaticCommon.isEmpty(base) ? path.join(rootPath, base) : path.join(rootPath, './src'),

@@ -178,7 +178,9 @@ const createNpmIgnore = (targetFileName, options) => {
  * @param {*} data [any] 写入文件数据
  * @param {*} options [WriteFileOptions]
  */
-const writeFile = fs.writeFileSync;
+const writeFile = (fileName: string, content: string) => {
+    fs.writeFileSync(fileName, content, "utf8");
+};
 
 export default {
     copyFiles,
