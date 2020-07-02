@@ -8,11 +8,19 @@ const initConfiguration = () => {
     const rootPath = process.cwd();
     const tsConfig = path.resolve(rootPath, "tsconfig.json");
     const srcConfig = path.resolve(__dirname, "../../tsconfig.json");
+    const babelrc = path.resolve(rootPath, ".babelrc");
+    const srcBabelrc = path.resolve(rootPath, ".babelrc");
     // --- check tsconfig, if not exists then copy tsconfig.json to project folder
     if(!staticObj.exists(tsConfig)) {
         if(staticObj.exists(srcConfig)) {
             const srcValue = staticObj.readFile(srcConfig);
             staticObj.writeFile(tsConfig, srcValue);
+        }
+    }
+    if(!staticObj.exists(babelrc)) {
+        if(staticObj.exists(srcBabelrc)) {
+            const srcBabelValue = staticObj.readFile(srcBabelrc);
+            staticObj.writeFile(babelrc, srcBabelValue);
         }
     }
 };
