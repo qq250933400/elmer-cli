@@ -23,7 +23,7 @@ command.version("1.0.0")
     })
     .action("build", () => {
         console.log("do build application");
-        webpackBuild();
+       webpackBuild();
     })
     .action("init", () => {
         init();

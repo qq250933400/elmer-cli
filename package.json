@@ -1,13 +1,14 @@
 {
   "name": "elmer-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "cli tool for elmer-ui-app",
   "typings": "lib/index.d.ts",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "bin": {
-    "elmer-cli": "./bin/index.js",
-    "elmer-start": "./bin/cmd.js"
+    "elmer-cli": "./bin/cmd.js init",
+    "elmer-start": "./bin/cmd.js start",
+    "elmer-build": "./bin/cmd.js build"
   },
   "scripts": {
     "test": "node ./bin/cmd.js -h",
