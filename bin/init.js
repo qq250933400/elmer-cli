@@ -10,7 +10,7 @@ const supportProjects = [
         message: "创建UI开发项目",
         sourcePath: "./ui",
         exec: apiBuilder,
-        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/],
+        ignore: [/\/\.DS_Store$/, /\/package\.json$/],
         dependencies: ["elmer-ui-core", "elmer-common", "elmer-virtual-dom", "elmer-common-ui"],
         npmignore: [
             "/node_modules/",
@@ -70,7 +70,7 @@ const supportProjects = [
         message: "创建服务端渲染项目",
         sourcePath: "./rsv",
         exec: apiBuilder,
-        ignore: [/\/\.DS_Store$/, /\/api\/package\.json$/]
+        ignore: [/\/\.DS_Store$/, /\/package\.json$/]
     }, {
         code: "Q",
         message: "退出程序"

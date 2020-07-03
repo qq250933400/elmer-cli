@@ -36,24 +36,38 @@ export default (options) => {
                 silent: false
             });
         }
-        // --- install dependencies 
-        const dependencies = options.dependencies || [];
-        if(dependencies.length>0) {
-            console.log(color.yellow("[Info] 安装依赖包..."));
-            if(options.yarn) {
-                child = shelljs.exec("yarn add " + dependencies.join(" "), {
-                    async: true,
-                    silent: false
+        child.on("close", (code, sj) => {
+                // --- install dependencies 
+            const dependencies = options.dependencies || [];
+            let myChild;
+            if(dependencies.length>0) {
+                console.log(color.yellow("[Info] 安装核心依赖包..."));
+                if(options.yarn) {
+                    myChild = shelljs.exec("yarn add " + dependencies.join(" "), {
+                        async: true,
+                        silent: false
+                    });
+                } else {
+                    myChild = shelljs.exec("npm i " + dependencies.join(" "), {
+                        async: true,
+                        silent: false
+                    });
+                }
+                myChild.on("close", () => {
+                    console.log(color.green("[Info] Complete!"));
+                });
+                myChild.on("message", (message) => {
+                    console.log(color.white("[LOG] " + message));
+                });
+                myChild.on("error", (err) => {
+                    console.log(color.red("[ERR] " + err.message), err.stack);
+                });
+                myChild.on("exit", () => {
+                    console.log("exit");
                 });
             } else {
-                child = shelljs.exec("npm i " + dependencies.join(" "), {
-                    async: true,
-                    silent: false
-                });
+                console.log(color.green("[Info] Complete!"));
             }
-        }
-        child.on("close", (code, sj) => {
-            console.log(color.green("[Info] Complete!"));
         });
         child.on("message", (message) => {
             console.log(color.white("[LOG] " + message));
