@@ -24,7 +24,7 @@ command.version("1.0.0")
         webpackServer();
     })
     .action("build", () => {
-        console.log("do build application");
+        console.log("Build application");
        webpackBuild();
     })
     .action("init", () => {

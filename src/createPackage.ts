@@ -15,7 +15,9 @@ export default (desPath, options, fn) => {
             for(var key in param) {
                 data[key] = param[key];
             }
+            data["repository"] = {};
             staticObj.writeFile(path.resolve(desPath, "./package.json"), JSON.stringify(data, null, 4));
+            console.log(data);
             typeof fn === "function" && fn();
         });
     }
