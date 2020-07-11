@@ -8,6 +8,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const chalk = require("chalk");
 const copyWebpackPlugin = require("copy-webpack-plugin");
 
+const rootPath = process.cwd();
+
 const webpackConfig = merge(common, {
     devtool: 'cheap-module-source-map',
     plugins: [
@@ -23,14 +25,14 @@ const webpackConfig = merge(common, {
         new cleanWebpackPlugin(
             ["css","font", "img", "script", "assets"],
             {
-                root: path.resolve(__dirname, "../dist"),
+                root: path.resolve(rootPath, "../dist"),
                 verbose: true,
                 dry: false
             }
         ),
         new copyWebpackPlugin([{
-            from: path.resolve(__dirname, "../src/assets"),
-            to: path.resolve(__dirname, "../dist/assets"),
+            from: path.resolve(rootPath, "../src/assets"),
+            to: path.resolve(rootPath, "../dist/assets"),
             toType: "dir"
         }])
     ],

@@ -42,12 +42,13 @@ export default class CommandHelper extends Common {
         this._email = email;
         return this;
     }
-    command(cmd:string, desc?: string): CommandHelper {
+    command(cmd:string, desc?: string, action?:Function): CommandHelper {
         if(!/^[\-]{1,}/.test(cmd)) {
             const len = StaticCommon.strLen(cmd);
             this._command[cmd] = {
                 desc,
-                length: len
+                length: len,
+                action
             };
             if(len > this._maxCommandLength) {
                 this._maxCommandLength = len;
@@ -57,11 +58,12 @@ export default class CommandHelper extends Common {
         }
         return this;
     }
-    option(option: string, desc: string): CommandHelper {
+    option(option: string, desc: string, action?:Function): CommandHelper {
         const len = StaticCommon.strLen(option);
         this._options[option] = {
             desc,
-            length: len
+            length: len,
+            action
         };
         if(len > this._maxOptionLength) {
             this._maxOptionLength = len;

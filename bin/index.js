@@ -6,6 +6,8 @@ var init = require("./init");
 var Command = require("../lib/command").default;
 var command = new Command(process.argv);
 
+var updateVersion = require("./version");
+
 
 command.version("1.0.0")
     .author("Elmer S J MO")
@@ -16,9 +18,13 @@ command.version("1.0.0")
     .option("-b", "--base", "webpack-dev-server content base")
     .option("port", "webpack-dev-server port")
     .option("mode", "mode=dev, for start development; mode=build, for build application")
+    .option("um", "升级版本模式, m->(main version), r -> (release version), c -> (Compiled version)")
     .command("init", "Create Project")
     .command("start", "for start development")
     .command("build", "for build application")
+    .command("uv", "update version", (options, params) => {
+        updateVersion(params);
+    })
     .action("start", () => {
         console.log("Start development");
         webpackServer();
