@@ -25,14 +25,14 @@ const webpackConfig = merge(common, {
         new cleanWebpackPlugin(
             ["css","font", "img", "script", "assets"],
             {
-                root: path.resolve(rootPath, "../dist"),
+                root: path.resolve(rootPath, "./dist"),
                 verbose: true,
                 dry: false
             }
         ),
         new copyWebpackPlugin([{
-            from: path.resolve(rootPath, "../src/assets"),
-            to: path.resolve(rootPath, "../dist/assets"),
+            from: path.resolve(rootPath, "./src/assets"),
+            to: path.resolve(rootPath, "./dist/assets"),
             toType: "dir"
         }])
     ],
