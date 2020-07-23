@@ -8,8 +8,8 @@
     "module": "lib/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "webpack-dev-server --client-log-level none --color --inline --config ./config/webpack.config.dev.js",
-        "build": "webpack --config ./config/webpack.config.prod.js --color --progress -p",
+        "dev": "elmer-cli start -e ./src/index.ts -t ./public/index.html",
+        "build": "elmer-cli build -e ./src/index.ts -t ./public/index.html",
         "lib": "babel ./src -d ./bin",
         "lint": "tslint --project . src/**/*.ts src/**/*.tsx",
         "static": "node ./bin/index.js"
