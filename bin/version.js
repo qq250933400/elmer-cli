@@ -15,9 +15,12 @@ const updateVersion = (options) => {
         if(um === "m") {
             const cValue = parseInt(versionArr[0],10);
             versionArr[0] = cValue + 1;
+            versionArr[1] = 0;
+            versionArr[2] = 0;
         } else if(um === "r") {
             const cValue = parseInt(versionArr[1],10);
             versionArr[1] = cValue + 1;
+            versionArr[2] = 0;
         } else {
             const cValue = parseInt(versionArr[2],10);
             versionArr[2] = cValue + 1;
