@@ -113,7 +113,7 @@ module.exports = {
                 test: /\.d\.ts$/,
                 loader: 'ignore-loader'
             }, {
-                test: "/.js$",
+                test: /\.js$/,
                 loader: "babel-loader"
             }
         ]
