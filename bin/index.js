@@ -5,6 +5,7 @@ var webpackBuild = require("../lib/webpack/build").default;
 var init = require("./init");
 var Command = require("../lib/command").default;
 var command = new Command(process.argv);
+var path = require("path");
 
 var updateVersion = require("./version");
 
@@ -24,6 +25,10 @@ command.version("1.0.0")
     .command("build", "for build application")
     .command("uv", "update version", (options, params) => {
         updateVersion(params);
+    })
+    .command("path", "显示cli所在位置，当前项目位置", () => {
+        console.log("elmer-cli: ", path.resolve(__dirname, "../"));
+        console.log("project: ", process.cwd());
     })
     .action("start", () => {
         console.log("Start development");

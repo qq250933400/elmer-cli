@@ -11,7 +11,7 @@ const copyWebpackPlugin = require("copy-webpack-plugin");
 const rootPath = process.cwd();
 
 const webpackConfig = merge(common, {
-    devtool: 'cheap-module-source-map',
+    devtool: "inline-source-map",
     plugins: [
         new UglifyJSPlugin({
             uglifyOptions: {
@@ -38,7 +38,7 @@ const webpackConfig = merge(common, {
     ],
     // 设置出口文件地址与文件名
     output: {
-        path: path.resolve('dist'),
+        path: path.resolve(process.cwd(),'./dist'),
         filename: '[name].[chunkhash:8].bundle.min.js',
         chunkFilename: '[name].[id].[chunkhash:8].js',
         publicPath: "",

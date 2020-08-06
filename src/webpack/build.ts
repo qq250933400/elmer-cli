@@ -11,7 +11,7 @@ export default () => {
     delete settingConfig.devServer;
     
     const configuration = merge(buildConfig, settingConfig);
-    //console.log("","----", buildConfig);
+    console.log("Configuration: ",configuration);
     // const compiler = webpack(configuration);
     webpack(configuration, (err, stats) => {
         if (err) {
