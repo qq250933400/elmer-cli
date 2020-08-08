@@ -1,6 +1,7 @@
 import { getCommand, StaticCommon } from "elmer-common/lib/BaseModule/StaticCommon";
 import staticObj from "../static";
-
+import "colors";
+const merge = require('webpack-merge');
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
@@ -24,6 +25,28 @@ const initConfiguration = () => {
         }
     }
 };
+
+export const mergeUserConfig = (configuration:any): void => {
+    const rootPath = process.cwd();
+    const packageFile = path.resolve(rootPath, "./package.json");
+    if(staticObj.exists(packageFile)) {
+        const configJSONStr:string = staticObj.readFile(packageFile);
+        if(!staticObj.isEmpty(configJSONStr)) {
+            const configJSON = JSON.parse(configJSONStr);
+            let configFile = configJSON["elmer-cli-webpack-config"];
+            configFile = path.resolve(rootPath, configFile);
+            console.log(`[Log] 合并自定义配置: ${configFile}`.green);
+            if(staticObj.exists(configFile)) {
+                const obj = require(configFile);
+                return merge(configuration, obj);
+            } else {
+                console.log("[Err] 合并配置失败".red);
+            }
+        }
+    }
+    return configuration;
+}
+
 export const portIsOccupied = (port, callback) => {
     callback(true);
 }

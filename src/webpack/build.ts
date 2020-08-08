@@ -1,5 +1,5 @@
 import "colors";
-import getConfig from "./config";
+import getConfig, { mergeUserConfig } from "./config";
 const merge = require('webpack-merge');
 const webpack = require("webpack");
 // const webpackCli = require("webpack-cli");
@@ -10,7 +10,8 @@ export default () => {
 
     delete settingConfig.devServer;
     
-    const configuration = merge(buildConfig, settingConfig);
+    let configuration = merge(buildConfig, settingConfig);
+    configuration = mergeUserConfig(configuration);
     console.log("Configuration: ",configuration);
     // const compiler = webpack(configuration);
     webpack(configuration, (err, stats) => {
