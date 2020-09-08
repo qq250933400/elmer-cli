@@ -14,7 +14,6 @@ export default () => {
     let configuration = merge(buildConfig, settingConfig);
     let overrideConfig:TypeOverrideConfig = {};
     configuration = mergeUserConfig(configuration, overrideConfig, true);
-    console.log("Configuration: ",configuration);
     // const compiler = webpack(configuration);
     webpack(configuration, (err, stats) => {
         if (err) {
