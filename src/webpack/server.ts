@@ -1,6 +1,6 @@
 // import webpackDevServer from "webpack-dev-server";
 import "colors";
-import getConfig, { portIsOccupied, mergeUserConfig } from "./config";
+import getConfig, { portIsOccupied, mergeUserConfig, TypeOverrideConfig } from "./config";
 const merge = require('webpack-merge');
 const webpack = require("webpack");
 const webpackDevServer = require("webpack-dev-server");
@@ -13,7 +13,8 @@ export default () => {
     delete settingConfig.devServer; // remove devServer config from setting config
 
     let configuration = merge(serviceConfig, settingConfig) ;
-    configuration = mergeUserConfig(configuration);
+    let overrideConfig:TypeOverrideConfig = {};
+    configuration = mergeUserConfig(configuration, overrideConfig, false);
     portIsOccupied(options.port, (isAvailable) => {
         if(isAvailable) {
             // console.log(configuration);return;

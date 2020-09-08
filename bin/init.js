@@ -11,7 +11,7 @@ const supportProjects = [
         sourcePath: "./ui",
         exec: apiBuilder,
         ignore: [/\/\.DS_Store$/, /\/package\.json$/],
-        dependencies: ["elmer-ui-core", "elmer-common", "elmer-virtual-dom", "elmer-common-ui"],
+        dependencies: ["elmer-ui-core", "elmer-common", "elmer-virtual-dom", "elmer-common-ui", "elmer-redux"],
         npmignore: [
             "/node_modules/",
             "/dist/",

@@ -43,13 +43,25 @@ module.exports = {
                 use: [
                     {loader: 'tslint-loader'}
                 ]
+            },{
+                test: /\.js$/,
+                use: [
+                    { loader: "babel-loader"},
+                    {
+                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/TPLoader.js"),
+                        options: {
+                            parse: function(source) {
+                                return parseObj.parse(source);
+                            }
+                        }
+                    }
+                ]
             },
             {
-                test: /\.ts(x?)$/,
+                test: /\.ts$/,
                 use: [
                     {
                         loader: 'babel-loader',
-                        // options: babelOptions
                     },
                     {
                         loader: 'ts-loader'

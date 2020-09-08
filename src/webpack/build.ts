@@ -1,5 +1,6 @@
 import "colors";
-import getConfig, { mergeUserConfig } from "./config";
+import getConfig, { mergeUserConfig, TypeOverrideConfig } from "./config";
+import { StaticCommon } from "elmer-common";
 const merge = require('webpack-merge');
 const webpack = require("webpack");
 // const webpackCli = require("webpack-cli");
@@ -11,7 +12,8 @@ export default () => {
     delete settingConfig.devServer;
     
     let configuration = merge(buildConfig, settingConfig);
-    configuration = mergeUserConfig(configuration);
+    let overrideConfig:TypeOverrideConfig = {};
+    configuration = mergeUserConfig(configuration, overrideConfig, true);
     console.log("Configuration: ",configuration);
     // const compiler = webpack(configuration);
     webpack(configuration, (err, stats) => {

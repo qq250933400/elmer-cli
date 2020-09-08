@@ -1,6 +1,7 @@
 import { getCommand, StaticCommon } from "elmer-common/lib/BaseModule/StaticCommon";
 import staticObj from "../static";
 import "colors";
+
 const merge = require('webpack-merge');
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
@@ -26,7 +27,20 @@ const initConfiguration = () => {
     }
 };
 
-export const mergeUserConfig = (configuration:any): void => {
+export type TypeOverrideConfig = {
+    template?: string;
+    entry?: string;
+    build?: string;
+    development?: string;
+};
+
+/**
+ * 合并用户自定义配置
+ * @param configuration elmer-cli 配置的参数
+ * @param overridConfig 需要覆盖elmer-cli的参数
+ * @param isBuild 当前执行模式是否是打包模式
+ */
+export const mergeUserConfig = (configuration:any, overridConfig: TypeOverrideConfig, isBuild: boolean = false): void => {
     const rootPath = process.cwd();
     const packageFile = path.resolve(rootPath, "./package.json");
     if(staticObj.exists(packageFile)) {
@@ -34,13 +48,41 @@ export const mergeUserConfig = (configuration:any): void => {
         if(!staticObj.isEmpty(configJSONStr)) {
             const configJSON = JSON.parse(configJSONStr);
             let configFile = configJSON["elmer-cli-webpack-config"];
-            configFile = path.resolve(rootPath, configFile);
-            console.log(`[Log] 合并自定义配置: ${configFile}`.green);
-            if(staticObj.exists(configFile)) {
-                const obj = require(configFile);
-                return merge(configuration, obj);
-            } else {
-                console.log("[Err] 合并配置失败".red);
+            if(!StaticCommon.isEmpty(configFile)) {
+                if(StaticCommon.isString(configFile)) {
+                    configFile = path.resolve(rootPath, configFile);
+                    console.log(`[Log] 合并自定义配置: ${configFile}`.green);
+                    if(staticObj.exists(configFile)) {
+                        const obj = require(configFile);
+                        return merge(configuration, obj);
+                    } else {
+                        console.log("[Err] 合并配置失败".red);
+                    }
+                } else if(StaticCommon.isObject(configFile)) {
+                    const overrideConfigData: TypeOverrideConfig = configFile;
+                    if(!StaticCommon.isEmpty(overrideConfigData.template)) {
+                        overridConfig.template = overrideConfigData.template;
+                    }
+                    if(!StaticCommon.isEmpty(overrideConfigData.entry)) {
+                        overridConfig.template = overrideConfigData.entry;
+                    }
+                    if(!isBuild) {
+                        if(!StaticCommon.isEmpty(overrideConfigData.development)) {
+                            const developFile = path.resolve(rootPath, overrideConfigData.development);
+                            if(staticObj.exists(developFile)) {
+                                return merge(configuration, require(developFile));
+                            }
+                        }
+                    } else {
+                        if(!StaticCommon.isEmpty(overrideConfigData.build)) {
+                            const buildFile = path.resolve(rootPath, overrideConfigData.build);
+                            if(staticObj.exists(buildFile)) {
+                                return merge(configuration, require(buildFile));
+                            }
+                        }
+                    }
+                    
+                }
             }
         }
     }
