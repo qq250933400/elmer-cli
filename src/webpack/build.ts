@@ -1,10 +1,11 @@
 import "colors";
-import getConfig, { mergeUserConfig, TypeOverrideConfig } from "./config";
+import getConfig, { mergeUserConfig, TypeOverrideConfig, getOverrideConfig } from "./config";
 import { StaticCommon } from "elmer-common";
+
 const merge = require('webpack-merge');
 const webpack = require("webpack");
-// const webpackCli = require("webpack-cli");
 const buildConfig = require("../../webpack_config/webpack.config.build");
+const path = require("path");
 
 export default () => {
     const settingConfig = getConfig();
@@ -12,9 +13,28 @@ export default () => {
     delete settingConfig.devServer;
     
     let configuration = merge(buildConfig, settingConfig);
-    let overrideConfig:TypeOverrideConfig = {};
-    configuration = mergeUserConfig(configuration, overrideConfig, true);
-    // const compiler = webpack(configuration);
+    let overrideConfigData:TypeOverrideConfig = {};
+    let overrideConfig = getOverrideConfig();
+    configuration = mergeUserConfig(configuration, overrideConfigData, true);
+    if(overrideConfig) {
+        configuration.plugins.map((plugin) => {
+            const className = StaticCommon.getValue(plugin, "__proto__.constructor.name")
+            if(className === "ExtractTextPlugin" && /\.css$/.test(plugin.filename)) {
+                if(undefined !== overrideConfig.hash && !overrideConfig.hash) {
+                    plugin.filename = plugin.filename.replace(/\[chunkhash\:[0-9]{1,}\]/,"");
+                }
+            }
+        });
+        if(undefined !== overrideConfig.hash && !overrideConfig.hash) {
+            configuration.output = {
+                path: path.resolve(process.cwd(),'./dist'),
+                filename: '[name].bundle.min.js',
+                chunkFilename: '[name].[id].js',
+                publicPath: "",
+                globalObject: "this",
+            };
+        }
+    }
     webpack(configuration, (err, stats) => {
         if (err) {
             console.error(err.stack || err);

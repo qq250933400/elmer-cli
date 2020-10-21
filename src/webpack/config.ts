@@ -32,6 +32,7 @@ export type TypeOverrideConfig = {
     entry?: string;
     build?: string;
     development?: string;
+    hash?: boolean;
 };
 
 /**
@@ -88,7 +89,20 @@ export const mergeUserConfig = (configuration:any, overridConfig: TypeOverrideCo
     }
     return configuration;
 }
-
+export const getOverrideConfig = ():TypeOverrideConfig|undefined => {
+    const rootPath = process.cwd();
+    const packageFile = path.resolve(rootPath, "./package.json");
+    if(staticObj.exists(packageFile)) {
+        const configJSONStr:string = staticObj.readFile(packageFile);
+        if(!staticObj.isEmpty(configJSONStr)) {
+            const configJSON = JSON.parse(configJSONStr);
+            let configFile = configJSON["elmer-cli-webpack-config"];
+            if(StaticCommon.isObject(configFile)) {
+                return configFile;
+            }
+        }
+    }
+};
 export const portIsOccupied = (port, callback) => {
     callback(true);
 }

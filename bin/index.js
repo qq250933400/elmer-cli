@@ -20,6 +20,7 @@ command.version("1.0.0")
     .option("port", "webpack-dev-server port")
     .option("mode", "mode=dev, for start development; mode=build, for build application")
     .option("um", "升级版本模式, m->(main version), r -> (release version), c -> (Compiled version)")
+    .option("env", "env=dev or env=prod, 定义运行环境环境，切换不同的api domain")
     .command("init", "Create Project")
     .command("start", "for start development")
     .command("build", "for build application")
@@ -41,4 +42,8 @@ command.version("1.0.0")
     .action("init", () => {
         init();
     })
+    .description("elmer-cli-webpack-config", "在package.json指定自定义webpack配置")
+    .description("----build", "指定打包的webpack配置脚本")
+    .description("----development", "指定开发模式webpack配置脚本")
+    .description("----hash", "boolean类型数据，是否开启输出文件名+hash值")
     .run();

@@ -12,6 +12,8 @@ export default class CommandHelper extends Common {
     private _email: string = "250933400@qq.com";
     private _command: object = {};
     private _options: object = {};
+    private _desc: object = {};
+    private _maxDescLength = 0;
     private _maxOptionLength = 0;
     private _maxCommandLength = 0;
     private _processArgv: string[] = [];
@@ -83,6 +85,18 @@ export default class CommandHelper extends Common {
             } else {
                 throw new Error(`The action target key "${keyword}" is not exisits in command list.`);
             }
+        }
+        return this;
+    }
+    description(keyName: string, description: string): CommandHelper {
+        const len = StaticCommon.strLen(keyName);
+        this._desc[keyName] = {
+            desc: description,
+            length: len,
+            action: "desc"
+        };
+        if(len > this._maxDescLength) {
+            this._maxDescLength = len;
         }
         return this;
     }
@@ -167,7 +181,7 @@ export default class CommandHelper extends Common {
             }
             console.log("");
             // show options information
-            if(this._options) {
+            if(this._command) {
                 console.log("Command: ");
                 Object.keys(this._command).map((key) => {
                     const tmpCmd = this._command[key];
@@ -178,6 +192,15 @@ export default class CommandHelper extends Common {
                 });
             }
             console.log("");
+            if(this._desc) {
+                Object.keys(this._desc).map((key) => {
+                    const tmpDesc = this._desc[key];
+                    const len = tmpDesc.length;
+                    const leftLen = this._maxDescLength - len;
+                    const spaceLen = leftLen + 10;
+                    console.log(key + " ".repeat(spaceLen), tmpDesc.desc);
+                });
+            }
         }
     }
     private getOptions(): Promise<any> {
