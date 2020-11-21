@@ -1,6 +1,6 @@
 {
     "name": "elmer-cli",
-    "version": "1.1.12",
+    "version": "1.1.13",
     "description": "cli tool for elmer-ui-app",
     "typings": "lib/index.d.ts",
     "main": "lib/index.js",
@@ -19,7 +19,8 @@
     "author": "250933400@qq.com",
     "license": "ISC",
     "elmer-cli-webpack-config": {
-        "hash": true
+        "hash": true,
+        "host": "192.168.0.102"
     },
     "dependencies": {
         "@babel/core": "^7.10.4",
