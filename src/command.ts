@@ -1,5 +1,8 @@
 import { getCommand, StaticCommon, Common, queueCallFunc, TypeQueueCallParam } from "elmer-common";
 
+const path = require("path");
+const fs = require("fs");
+
 export type TypeCommandInitCallbackResult = {
     commands?: string[];
     options?: any;
@@ -161,12 +164,23 @@ export default class CommandHelper extends Common {
             console.error("Exit code without 0");
         });
     }
+    getVersion(): string {
+        const packageFile = path.resolve(process.cwd(), "./package.json");
+        if(fs.existsSync(packageFile)) {
+            const jsonStr = fs.readFileSync(packageFile, "utf-8");
+            const jsonData = JSON.parse(jsonStr);
+            return jsonData.version;
+        } else {
+            return this._version;
+        }
+    }
     private _help() {
         const showHelp = getCommand(this._processArgv, "-h") === null || getCommand(this._processArgv, "--help") === null;
         if(showHelp) {
             console.log("");
-            console.log("Author: ", this._auther);
-            console.log("Email:  ", this._email);
+            console.log("version: ", this.getVersion());
+            console.log("Author:  ", this._auther);
+            console.log("Email:   ", this._email);
             console.log("");
             // show options information
             if(this._options) {

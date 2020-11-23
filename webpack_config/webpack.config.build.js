@@ -11,13 +11,13 @@ const copyWebpackPlugin = require("copy-webpack-plugin");
 const rootPath = process.cwd();
 
 const webpackConfig = merge(common, {
-    devtool: "inline-source-map",
     plugins: [
-        new UglifyJSPlugin({
-            uglifyOptions: {
-                ie8: true,
-            }
-        }),
+        // new UglifyJSPlugin({
+        //     uglifyOptions: {
+        //         ie8: true,
+        //     },
+        //     sourceMap: true
+        // }),
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
             clear: true
