@@ -1,6 +1,6 @@
 {
     "name": "elmer-cli",
-    "version": "1.1.15",
+    "version": "1.1.17",
     "description": "cli tool for elmer-ui-app",
     "typings": "lib/index.d.ts",
     "main": "lib/index.js",
@@ -11,8 +11,8 @@
     "scripts": {
         "test": "node ./bin/index.js -h",
         "dev": "node ./bin/index.js init",
-        "start": "node ./bin/index.js start -e ./public/index.html -t ./src/index.ts",
-        "build": "node ./bin/index.js build",
+        "start": "node ./bin/index.js start -t ./public/index.html -e ./public/index.ts",
+        "build": "node ./bin/index.js build  -t ./public/index.html -e ./public/index.ts",
         "uv": "node ./bin/index.js uv um=c",
         "path": "node ./bin/index.js path",
         "ver": "node ./bin/index.js version"
@@ -21,7 +21,8 @@
     "license": "ISC",
     "elmer-cli-webpack-config": {
         "hash": true,
-        "host": "192.168.0.102"
+        "host": "192.168.0.102",
+        "devtool": "source-map"
     },
     "dependencies": {
         "@babel/core": "^7.10.4",
@@ -34,13 +35,15 @@
         "colors": "^1.4.0",
         "commander": "^4.1.0",
         "copy-webpack-plugin": "^5.0.3",
-        "elmer-common": "^0.1.7",
-        "elmer-loader": "^1.0.0",
-        "elmer-virtual-dom": "^1.0.4",
+        "elmer-common": "^0.1.10",
+        "elmer-loader": "^1.0.2",
+        "elmer-virtual-dom": "^1.0.10",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "global": "^4.4.0",
         "html-webpack-plugin": "^4.3.0",
+        "i": "^0.3.6",
         "inquirer": "^7.0.3",
+        "npm": "^6.14.9",
         "progress-bar-webpack-plugin": "^2.1.0",
         "shelljs": "^0.8.3",
         "superagent": "^5.2.1",

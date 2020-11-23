@@ -18,7 +18,8 @@ const babelOptions = {
 }
 
 module.exports = {
-    devtool: "source-map",
+    // 使用 source-map
+    devtool: 'source-map',
     resolve:{
         extensions: ['.ts', '.js', '.json']
     },

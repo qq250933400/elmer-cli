@@ -33,6 +33,7 @@ export type TypeOverrideConfig = {
     build?: string;
     development?: string;
     hash?: boolean;
+    devtool?: boolean;
 };
 
 /**
@@ -81,6 +82,12 @@ export const mergeUserConfig = (configuration:any, overridConfig: TypeOverrideCo
                                 return merge(configuration, require(buildFile));
                             }
                         }
+                        if(undefined !== overrideConfigData.devtool && !StaticCommon.isEmpty(overrideConfigData.devtool)) {
+                            configuration.devtool = overrideConfigData.devtool;
+                            StaticCommon.setValue(configuration,"optimization.minimize", false);
+                        } else {
+                            StaticCommon.setValue(configuration,"optimization.minimize", true);
+                        }
                     }
                     
                 }
@@ -111,10 +118,15 @@ export const portIsOccupied = (port, callback) => {
 export default () => {
     const rootPath = process.cwd();
     const templateFile = getCommand(process.argv, "-t") || getCommand(process.argv, "--template");
+    const templateFileName = StaticCommon.isEmpty(templateFile) ? "./public/index.html" : templateFile;
     const entryJS = getCommand(process.argv, "-e") || getCommand(process.argv, "--entry");
+    const entryJSFileName = StaticCommon.isEmpty(entryJS) ? "./public/index.js" : entryJS;
     const port = getCommand(process.argv, "port");
     const base = getCommand(process.argv, "-b") || getCommand(process.argv,"--base");
+
     initConfiguration();
+    console.log("EntryJS: ",path.resolve(rootPath, entryJSFileName));
+    console.log("EntryHTML: ",path.resolve(rootPath, templateFileName));
     return {
         devServer: {
             contentBase: !StaticCommon.isEmpty(base) ? path.join(rootPath, base) : path.join(rootPath, './src'),
@@ -130,7 +142,7 @@ export default () => {
         plugins: [
             new htmlWebpackPlugin({
                 filename: "index.html",
-                template: StaticCommon.isEmpty(templateFile) ? "./public/index.html" : templateFile,
+                template: path.resolve(rootPath, templateFileName),
                 inject: true,
                 hash: true,
                 title: "Document",
@@ -140,7 +152,7 @@ export default () => {
             }),
         ],
         entry: {
-            "./script/main": StaticCommon.isEmpty(entryJS) ? "./public/index.js" : entryJS,
+            "./script/main": path.resolve(rootPath, entryJSFileName)
         }
     }
 }

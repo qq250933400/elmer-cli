@@ -12,12 +12,6 @@ const rootPath = process.cwd();
 
 const webpackConfig = merge(common, {
     plugins: [
-        // new UglifyJSPlugin({
-        //     uglifyOptions: {
-        //         ie8: true,
-        //     },
-        //     sourceMap: true
-        // }),
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
             clear: true
@@ -45,6 +39,7 @@ const webpackConfig = merge(common, {
         globalObject: "this",
     },
     optimization: {
+        minimize: false,
         splitChunks: {
             cacheGroups: {
                 commons: {
