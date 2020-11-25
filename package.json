@@ -15,7 +15,8 @@
         "build": "node ./bin/index.js build  -t ./public/index.html -e ./public/index.ts",
         "uv": "node ./bin/index.js uv um=c",
         "path": "node ./bin/index.js path",
-        "ver": "node ./bin/index.js version"
+        "ver": "node ./bin/index.js version",
+        "deploy": "ts-node ./src/deploy/index.ts"
     },
     "author": "250933400@qq.com",
     "license": "ISC",

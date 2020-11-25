@@ -1,0 +1,17 @@
+{
+    "name": "elmerApi",
+    "dev": {
+        "server": {
+            "host": "47.114.42.241",
+            "user": "root",
+            "pwd": "Msj22020",
+            "workspace": "/mnt/demo",
+            "temp": "/mnt/temp",
+            "project": "elmerApi"
+        },
+        "source": {
+            "dist": "/Users/mnt/elmerApp/elmer-cli/dist",
+            "temp": "/Users/mnt/elmerApp/elmer-cli/temp"
+        }
+    }
+}
