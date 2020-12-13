@@ -34,6 +34,7 @@ export type TypeOverrideConfig = {
     development?: string;
     hash?: boolean;
     devtool?: boolean;
+    optimization?: boolean;
 };
 
 /**
@@ -103,7 +104,7 @@ export const getOverrideConfig = ():TypeOverrideConfig|undefined => {
         const configJSONStr:string = staticObj.readFile(packageFile);
         if(!staticObj.isEmpty(configJSONStr)) {
             const configJSON = JSON.parse(configJSONStr);
-            let configFile = configJSON["elmer-cli-webpack-config"];
+            let configFile = configJSON["elmer-cli-webpack-config"] || configJSON["elmer-cli"];
             if(StaticCommon.isObject(configFile)) {
                 return configFile;
             }

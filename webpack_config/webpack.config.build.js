@@ -4,7 +4,6 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const cleanWebpackPlugin = require("clean-webpack-plugin");
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const chalk = require("chalk");
 const copyWebpackPlugin = require("copy-webpack-plugin");
 

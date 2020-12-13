@@ -104,7 +104,8 @@ export default class Deployment extends Utils {
                 params: "",
                 fn: (): any => {
                     const targetTempName = this.serverConfig.temp + "/" + this.projectName + ".tar.gz";
-                    const unlinkTemp = files.exists(targetTempName) ? `ssh ${this.serverConfig.user}@${this.serverConfig.host} unlink ${targetTempName};` : "";
+                    const unlinkTemp = `ssh ${this.serverConfig.user}@${this.serverConfig.host} unlink ${targetTempName};exit;`;
+                    this.log("Delete temp file from remote server: " + unlinkTemp, "WARN");
                     if(!this.isEmpty(unlinkTemp)) {
                         return this.exec(unlinkTemp)
                     }
@@ -113,9 +114,11 @@ export default class Deployment extends Utils {
                 id: "copytoserver",
                 params: "",
                 fn: (): any => {
-                    const targetName = `${this.sourceConfig.temp}/${this.projectName}.tar.gz`;
+                    const targetName = `${this.serverConfig.temp}/${this.projectName}.tar.gz`;
                     const tempName = `${this.projectName}.tar.gz`;
-                    return this.exec(`cd ${this.sourceConfig.temp};scp ${tempName} ${this.serverConfig.user}@${this.serverConfig.host}:/${targetName}`);
+                    const cmd = `scp -r ${this.sourceConfig.temp}/${tempName} ${this.serverConfig.user}@${this.serverConfig.host}:${targetName}`;
+                    console.log(cmd);
+                    return this.exec(cmd);
                 }
             }
         ], null, {

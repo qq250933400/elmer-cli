@@ -1,6 +1,6 @@
 {
     "name": "elmer-cli",
-    "version": "1.1.17",
+    "version": "1.1.20",
     "description": "cli tool for elmer-ui-app",
     "typings": "lib/index.d.ts",
     "main": "lib/index.js",
@@ -16,14 +16,16 @@
         "uv": "node ./bin/index.js uv um=c",
         "path": "node ./bin/index.js path",
         "ver": "node ./bin/index.js version",
-        "deploy": "ts-node ./src/deploy/index.ts"
+        "deploy": "ts-node ./src/deploy/index.ts",
+        "static": "node ./bin/index.js static"
     },
     "author": "250933400@qq.com",
     "license": "ISC",
-    "elmer-cli-webpack-config": {
+    "elmer-cli": {
         "hash": true,
         "host": "192.168.0.102",
-        "devtool": "source-map"
+        "devtool": "source-map",
+        "optimization": false
     },
     "dependencies": {
         "@babel/core": "^7.10.4",
