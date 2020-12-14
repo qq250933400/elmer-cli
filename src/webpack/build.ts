@@ -2,8 +2,6 @@ import "colors";
 import getConfig, { mergeUserConfig, TypeOverrideConfig, getOverrideConfig } from "./config";
 import { StaticCommon } from "elmer-common";
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
 const merge = require('webpack-merge');
 const webpack = require("webpack");
 const buildConfig = require("../../webpack_config/webpack.config.build");
@@ -38,7 +36,7 @@ export default () => {
         }
         if(overrideConfig.optimization) {
             configuration.optimization.minimize = true;
-            configuration.optimization.minimizer = [new UglifyJSPlugin()];
+            configuration.mode = "production";
         }
     }
     webpack(configuration, (err, stats) => {
