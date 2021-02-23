@@ -29,9 +29,15 @@ export default () => {
             configuration.output = {
                 path: path.resolve(process.cwd(),'./dist'),
                 filename: '[name].bundle.min.js',
-                chunkFilename: '[name].[id].js',
+                chunkFilename: 'chunks/[name].[id].js',
                 publicPath: "",
                 globalObject: "this",
+            };
+        }
+        if(StaticCommon.isObject(overrideConfig.output)) {
+            configuration.output = {
+                ...(configuration.output || {}),
+                ...overrideConfig.output
             };
         }
         if(overrideConfig.optimization) {

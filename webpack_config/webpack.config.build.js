@@ -16,7 +16,7 @@ const webpackConfig = merge(common, {
             clear: true
         }),
         new cleanWebpackPlugin(
-            ["css","font", "img", "script", "assets"],
+            ["css","font", "img","chunks", "scripts", "script","assets","js"],
             {
                 root: path.resolve(rootPath, "./dist"),
                 verbose: true,
@@ -33,7 +33,7 @@ const webpackConfig = merge(common, {
     output: {
         path: path.resolve(process.cwd(),'./dist'),
         filename: '[name].[chunkhash:8].bundle.min.js',
-        chunkFilename: '[name].[id].[chunkhash:8].js',
+        chunkFilename: 'chunks/[name].[id].[chunkhash:8].js',
         publicPath: "",
         globalObject: "this",
     },
@@ -45,6 +45,12 @@ const webpackConfig = merge(common, {
                     name: "commons",
                     chunks: "initial",
                     minChunks: 2
+                },
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    priority: -20,
+                    chunks: "all"
                 }
             }
         }

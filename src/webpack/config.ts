@@ -35,6 +35,13 @@ export type TypeOverrideConfig = {
     hash?: boolean;
     devtool?: boolean;
     optimization?: boolean;
+    output?: {
+        path?: string;
+        filename?: string;
+        chunkFilename?: string;
+        publicPath?: string;
+        globalObject?: string;
+    }
 };
 
 /**

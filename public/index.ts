@@ -1,6 +1,11 @@
 
 import { Common } from "elmer-common";
+import { Loadable } from "./Loadable";
 
+const TestAysncApp = Loadable({
+    loader: () => import(/* webpackChunkName: "AsyncApp" */ "./AsyncApp")
+});
+const obj = TestAysncApp();
 class TestFactory extends Common {
     add(a:number,b:number): number {
         return (a + b) * 1.3;
