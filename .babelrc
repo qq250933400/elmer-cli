@@ -10,7 +10,7 @@
                     ]
                 },
                 "debug": false,
-                "modules": "commonjs"
+                "modules": "es5"
             }
         ]
     ],

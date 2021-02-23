@@ -126,9 +126,6 @@ module.exports = {
             {
                 test: /\.d\.ts$/,
                 loader: 'ignore-loader'
-            }, {
-                test: /\.js$/,
-                loader: "babel-loader"
             }
         ]
     }
