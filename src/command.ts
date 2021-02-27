@@ -117,6 +117,16 @@ export default class CommandHelper extends Common {
             const cmdKeys = Object.keys(this._command);
             const params: TypeQueueCallParam[] = [];
             let initResult: TypeCommandInitCallbackResult;
+            if(optionsValue && Object.keys(optionsValue).indexOf("-v")>=0) {
+                params.push({
+                    id: "showVersion",
+                    params: "",
+                    fn: ():any => {
+                        const version = this.getVersion();
+                        console.log(`Version: ${version}`);
+                    }
+                });
+            }
             if(typeof this._initCallback === "function") {
                 initResult = this._initCallback(optionsValue);
                 if(initResult && this.isArray(initResult.commands)) {
@@ -165,7 +175,7 @@ export default class CommandHelper extends Common {
         });
     }
     getVersion(): string {
-        const packageFile = path.resolve(process.cwd(), "./package.json");
+        const packageFile = path.resolve(__dirname, "../package.json");
         if(fs.existsSync(packageFile)) {
             const jsonStr = fs.readFileSync(packageFile, "utf-8");
             const jsonData = JSON.parse(jsonStr);

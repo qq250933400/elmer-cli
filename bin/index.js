@@ -17,7 +17,7 @@ var updateVersion = require("./version");
 command.version("1.0.0")
     .author("Elmer S J MO")
     .email("250933400@qq.com")
-    .option("-y", "测试使用")
+    .option("-v", "版本信息")
     .option("-d, --delete", "删除对象")
     .option("-t, --template", "Webpack 模板文件，未设置将使用默认文件")
     .option("-e, --entry", "webpack入口文件")
@@ -56,10 +56,11 @@ command.version("1.0.0")
         console.log("Build application");
        webpackBuild();
     })
-    .action("init", () => {
+    .action("init", (opt) => {
         init();
+        console.log(opt);
     })
-    .description("elmer-cli-webpack-config", "在package.json指定自定义webpack配置")
+    .description("elmer-cli", "在package.json指定自定义webpack配置")
     .description("----build", "指定打包的webpack配置脚本")
     .description("----development", "指定开发模式webpack配置脚本")
     .description("----hash", "boolean类型数据，是否开启输出文件名+hash值")
