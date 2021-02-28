@@ -9,9 +9,13 @@
                         "safari >= 7"
                     ]
                 },
-                "debug": true,
+                "debug": false,
                 "modules": "commonjs"
             }
         ]
+    ],
+    "plugins": [
+        "transform-class-properties",
+        "syntax-dynamic-import"
     ]
 }

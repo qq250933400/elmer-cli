@@ -39,21 +39,15 @@ const webpackConfig = merge(common, {
     },
     optimization: {
         minimize: false,
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    name: "commons",
-                    chunks: "initial",
-                    minChunks: 2
-                },
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: "vendors",
-                    priority: -20,
-                    chunks: "all"
-                }
-            }
-        }
+        // splitChunks: {
+        //     cacheGroups: {
+        //         vendor: {
+        //             test: /[\\/]node_modules[\\/]/,
+        //             name: "vendors",
+        //             chunks: "initial"
+        //         }
+        //     }
+        // }
     },
     mode: "production"
 });
