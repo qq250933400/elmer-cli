@@ -6,6 +6,7 @@ const cleanWebpackPlugin = require("clean-webpack-plugin");
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const chalk = require("chalk");
 const copyWebpackPlugin = require("copy-webpack-plugin");
+const ElmerWebpackPlugin = require("../lib/plugin/ElmerWebpackPlugin").ElmerWebpackPlugin;
 
 const rootPath = process.cwd();
 
@@ -27,7 +28,10 @@ const webpackConfig = merge(common, {
             from: path.resolve(rootPath, "./src/assets"),
             to: path.resolve(rootPath, "./dist/assets"),
             toType: "dir"
-        }])
+        }]),
+        new ElmerWebpackPlugin({
+            remove: ["lib"]
+        })
     ],
     // 设置出口文件地址与文件名
     output: {
