@@ -2,8 +2,8 @@
 import "colors";
 import getConfig, { portIsOccupied, mergeUserConfig, TypeOverrideConfig } from "./config";
 import { StaticCommon as utils } from "elmer-common";
-const merge = require('webpack-merge');
-const webpack = require("webpack");
+import { merge } from "webpack-merge";
+import { webpack } from "webpack";
 const webpackDevServer = require("webpack-dev-server");
 const serviceConfig = require("../../webpack_config/webpack.config.dev");
 

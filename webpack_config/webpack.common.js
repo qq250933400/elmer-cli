@@ -30,6 +30,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/vendor.css',
             chunkFilename: 'css/app[name][contenthash:12].css',
+            ignoreOrder: true
         }),
         new webpack.DefinePlugin({
             template: function(path){
@@ -65,6 +66,29 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
+                        options: {
+                            babelrc: false,
+                            plugins: [
+                                "@babel/plugin-transform-runtime",
+                                ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                                ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+                                "@babel/plugin-syntax-dynamic-import"
+                            ],
+                            "presets": [
+                                [
+                                    "@babel/preset-env",
+                                    {
+                                        "modules": "commonjs",
+                                        "targets": {
+                                            "browsers": [
+                                                "last 2 versions",
+                                                "safari >= 7"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            ],
+                        }
                     },
                     {
                         loader: 'ts-loader'

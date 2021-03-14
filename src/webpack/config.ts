@@ -1,6 +1,7 @@
 import { getCommand, StaticCommon } from "elmer-common/lib/BaseModule/StaticCommon";
 import staticObj from "../static";
 import "colors";
+import "@babel/polyfill";
 
 const merge = require('webpack-merge');
 const htmlWebpackPlugin = require("html-webpack-plugin");

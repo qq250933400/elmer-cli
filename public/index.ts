@@ -3,12 +3,24 @@ import { Common } from "elmer-common";
 import { Loadable } from "./Loadable";
 import "./styles.less";
 
+const connect = () => {
+    return (Factory:Function) => {
+        Factory.prototype.inject = true;
+    }
+}
+
 const TestAysncApp = Loadable({
-    loader: () => import(/* webpackChunkName: "AsyncApp" */ "./AsyncApp")
+    loader: () => import(/* webpackChunkName: "AsyncApp" */"./AsyncApp")
 });
-const obj = TestAysncApp();
+
+
+@connect()
 class TestFactory extends Common {
     add(a:number,b:number): number {
+        const obj = TestAysncApp();
+        obj.done((TestApp) => {
+            console.log((new TestApp()).run());
+        })
         return (a + b) * 1.3;
     }
 }
