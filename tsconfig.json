@@ -8,6 +8,7 @@
         "sourceMap": true,
         "allowJs": false,
         "checkJs": false,
+        // "module": "commonJs",
         "module": "esnext",
         "moduleResolution": "node",
         "removeComments": false,

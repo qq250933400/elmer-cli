@@ -1,11 +1,11 @@
 global.window = {};
-const htmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const { HtmlParse } = require("elmer-virtual-dom");
 const { getCommand } = require("elmer-common/lib/BaseModule/StaticCommon");
 const parseObj = new HtmlParse();
+const devMode = process.env.NODE_ENV !== 'production'
 // 对babel的配置，内容同.babelrc文件
 const babelOptions = {
     "presets": [
@@ -27,8 +27,9 @@ module.exports = {
         new webpack.DefinePlugin({
             ENV: JSON.stringify(getCommand(process.argv, "env"))
         }),
-        new ExtractTextWebpackPlugin('css/style[chunkhash:8].css', {
-            allChunks: false
+        new MiniCssExtractPlugin({
+            filename: 'css/vendor.css',
+            chunkFilename: 'css/app[name][contenthash:12].css',
         }),
         new webpack.DefinePlugin({
             template: function(path){
@@ -50,7 +51,7 @@ module.exports = {
                 use: [
                     { loader: "babel-loader"},
                     {
-                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/TPLoader.js"),
+                        loader: "elmer-loader",
                         options: {
                             parse: function(source) {
                                 return parseObj.parse(source);
@@ -69,7 +70,7 @@ module.exports = {
                         loader: 'ts-loader'
                     },
                     {
-                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/TPLoader.js"),
+                        loader: "elmer-loader",
                         options: {
                             parse: function(source) {
                                 return parseObj.parse(source);
@@ -79,26 +80,38 @@ module.exports = {
                 ]
             },{
                 test:/\.css$/i,
-                use: ExtractTextWebpackPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        "css-loader",
-                        'postcss-loader'
-                    ],
-                    filename: "[name][hash:8].css"
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "./css",
+                            esModule: false,
+                            modules: {
+                                namedExport: true
+                            }
+                        }
+                    },
+                    "css-loader",
+                    'postcss-loader'
+                ]
             },
             {
                 test: /\.less$/i,
-                use: ExtractTextWebpackPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        "css-loader",
-                        'postcss-loader',
-                        'less-loader'
-                    ],
-                    filename: "[name][hash:8].css"
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "./css",
+                            esModule: false,
+                            modules: {
+                                namedExport: true
+                            }
+                        }
+                    },
+                    "css-loader",
+                    'postcss-loader',
+                    'less-loader'
+                ]
             },{
                 test: /\.(woff|woff2|ttf|eot)/,
                 use: [
@@ -114,7 +127,7 @@ module.exports = {
                 test: /\.(html|htm)$/i,
                 use : [
                     {
-                        loader: path.resolve("./node_modules/elmer-loader/lib/loader/HtmlLoader.js"),
+                        loader: "elmer-loader",
                         options: {
                             parse: function(source) {
                                 return parseObj.parse(source);

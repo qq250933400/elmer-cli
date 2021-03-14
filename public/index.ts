@@ -1,6 +1,7 @@
 
 import { Common } from "elmer-common";
 import { Loadable } from "./Loadable";
+import "./styles.less";
 
 const TestAysncApp = Loadable({
     loader: () => import(/* webpackChunkName: "AsyncApp" */ "./AsyncApp")

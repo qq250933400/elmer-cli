@@ -41,7 +41,8 @@ export type TypeOverrideConfig = {
         chunkFilename?: string;
         publicPath?: string;
         globalObject?: string;
-    }
+    },
+    port?: number;
 };
 
 /**
@@ -74,13 +75,17 @@ export const mergeUserConfig = (configuration:any, overridConfig: TypeOverrideCo
                         overridConfig.template = overrideConfigData.template;
                     }
                     if(!StaticCommon.isEmpty(overrideConfigData.entry)) {
-                        overridConfig.template = overrideConfigData.entry;
+                        overridConfig.entry = overrideConfigData.entry;
                     }
+                    console.log(overridConfig);
                     if(!isBuild) {
                         if(!StaticCommon.isEmpty(overrideConfigData.development)) {
                             const developFile = path.resolve(rootPath, overrideConfigData.development);
                             if(staticObj.exists(developFile)) {
                                 return merge(configuration, require(developFile));
+                            }
+                            if(overrideConfigData && overrideConfigData.port > 0) {
+                                configuration.devServer.port = overrideConfigData.port;
                             }
                         }
                     } else {
@@ -126,11 +131,20 @@ export const portIsOccupied = (port, callback) => {
 export default () => {
     const rootPath = process.cwd();
     const templateFile = getCommand(process.argv, "-t") || getCommand(process.argv, "--template");
-    const templateFileName = StaticCommon.isEmpty(templateFile) ? "./public/index.html" : templateFile;
     const entryJS = getCommand(process.argv, "-e") || getCommand(process.argv, "--entry");
-    const entryJSFileName = StaticCommon.isEmpty(entryJS) ? "./public/index.js" : entryJS;
     const port = getCommand(process.argv, "port");
     const base = getCommand(process.argv, "-b") || getCommand(process.argv,"--base");
+    const overrideConfig = getOverrideConfig();
+
+    let templateFileName = StaticCommon.isEmpty(templateFile) ? "./public/index.html" : templateFile;
+    let entryJSFileName = StaticCommon.isEmpty(entryJS) ? "./public/index.js" : entryJS;
+
+    if(StaticCommon.isEmpty(entryJS) && !StaticCommon.isEmpty(overrideConfig.entry)) {
+        entryJSFileName = overrideConfig.entry;
+    }
+    if(StaticCommon.isEmpty(templateFile) && !StaticCommon.isEmpty(overrideConfig.template)) {
+        templateFileName = overrideConfig.template;
+    }
 
     initConfiguration();
     console.log("EntryJS: ",path.resolve(rootPath, entryJSFileName));

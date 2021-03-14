@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const merge = require('webpack-merge').merge;
 // 引入通用webpack配置文件
 const common = require("./webpack.common");
 const webpack = require("webpack");
@@ -27,8 +27,5 @@ module.exports = merge(common, {
     mode: "development",
     plugins: [
         new webpack.HotModuleReplacementPlugin()
-    ],
-    watchOptions: {
-        ignored: /node_modules/
-    }
+    ]
 });

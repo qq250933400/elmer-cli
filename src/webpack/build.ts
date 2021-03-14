@@ -1,10 +1,10 @@
 import "colors";
 import getConfig, { mergeUserConfig, TypeOverrideConfig, getOverrideConfig } from "./config";
 import { StaticCommon } from "elmer-common";
+import { merge } from "webpack-merge";
+import { webpack } from "webpack";
+import * as buildConfig from "../../webpack_config/webpack.config.build";
 
-const merge = require('webpack-merge');
-const webpack = require("webpack");
-const buildConfig = require("../../webpack_config/webpack.config.build");
 const path = require("path");
 
 export default () => {
@@ -19,9 +19,12 @@ export default () => {
     if(overrideConfig) {
         configuration.plugins.map((plugin) => {
             const className = StaticCommon.getValue(plugin, "__proto__.constructor.name")
-            if(className === "ExtractTextPlugin" && /\.css$/.test(plugin.filename)) {
+            if(className === "MiniCssExtractPlugin" && /\.css$/.test(plugin.filename)) {
                 if(undefined !== overrideConfig.hash && !overrideConfig.hash) {
-                    plugin.filename = plugin.filename.replace(/\[chunkhash\:[0-9]{1,}\]/,"");
+                    let newFileName = plugin.filename.replace(/\[chunkhash\:[0-9]{1,}\]/,"");
+                    newFileName = newFileName.replace(/\[hash\:[0-9]{1,}\]/,"");
+                    newFileName = newFileName.replace(/\[contenthash\:[0-9]{1,}\]/,"");
+                    plugin.filename = newFileName;
                 }
             }
         });

@@ -11,6 +11,23 @@ export class ElmerWebpackPlugin {
     constructor(options: ElmerWebpackPluginOptions) {
         this.options = options;
     }
+    deleteFolder(filePath) {
+        if (fs.existsSync(filePath)) {
+          const files = fs.readdirSync(filePath)
+          files.forEach((file) => {
+            const nextFilePath = `${filePath}/${file}`
+            const states = fs.statSync(nextFilePath)
+            if (states.isDirectory()) {
+              //recurse
+              this.deleteFolder(nextFilePath)
+            } else {
+              //delete file
+              fs.unlinkSync(nextFilePath)
+            }
+          })
+          fs.rmdirSync(filePath)
+        }
+      }
     apply(compiler:any): void {
         compiler.hooks.done.tap("ElmerWebpackPlugin", ({ compilation }) => {
             if(this.options) {
@@ -21,12 +38,14 @@ export class ElmerWebpackPlugin {
                         try{
                             const removePath:string = path.resolve(rootPath, removeItem);
                             if(fs.existsSync(removePath)) {
-                                const fStat = fs.fstatSync(removePath as any);
+                                const fileHandle = fs.openSync(removePath, "r");
+                                const fStat = fs.fstatSync(fileHandle);
                                 if(fStat.isDirectory()) {
-                                    fs.rmdirSync(removePath);
+                                    this.deleteFolder(removePath);
                                 } else {
                                     fs.unlinkSync(removePath);
                                 }
+                                fs.closeSync(fileHandle);
                                 console.log(`[Info]    The path "${removePath}" has been deleted`.green);
                             } else {
                                 console.log(`[Info]    The path to delete does not exists. -> ${removePath}`.yellow);

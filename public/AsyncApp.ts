@@ -1,4 +1,5 @@
 import BasePlugin from "./BasePlugin";
+import "./test.less";
 
 export default class AsyncApp extends BasePlugin {
     run() {

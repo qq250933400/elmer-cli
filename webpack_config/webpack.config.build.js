@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const merge = require('webpack-merge').merge;
 // 引入通用webpack配置文件
 const common = require('./webpack.common.js');
 const cleanWebpackPlugin = require("clean-webpack-plugin");
@@ -42,16 +42,7 @@ const webpackConfig = merge(common, {
         globalObject: "this",
     },
     optimization: {
-        minimize: false,
-        // splitChunks: {
-        //     cacheGroups: {
-        //         vendor: {
-        //             test: /[\\/]node_modules[\\/]/,
-        //             name: "vendors",
-        //             chunks: "initial"
-        //         }
-        //     }
-        // }
+        minimize: false
     },
     mode: "production"
 });
