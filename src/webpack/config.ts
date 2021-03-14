@@ -44,6 +44,8 @@ export type TypeOverrideConfig = {
         globalObject?: string;
     },
     port?: number;
+    libraryTarget?: "commonjs" | "umd";
+    library?: string;
 };
 
 /**
@@ -78,7 +80,6 @@ export const mergeUserConfig = (configuration:any, overridConfig: TypeOverrideCo
                     if(!StaticCommon.isEmpty(overrideConfigData.entry)) {
                         overridConfig.entry = overrideConfigData.entry;
                     }
-                    console.log(overridConfig);
                     if(!isBuild) {
                         if(!StaticCommon.isEmpty(overrideConfigData.development)) {
                             const developFile = path.resolve(rootPath, overrideConfigData.development);

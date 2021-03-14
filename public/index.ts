@@ -1,4 +1,6 @@
 
+import "@babel/polyfill";
+import "core-js/es5";
 import { Common } from "elmer-common";
 import { Loadable } from "./Loadable";
 import "./styles.less";

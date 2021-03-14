@@ -40,20 +40,29 @@ const webpackConfig = merge(common, {
         chunkFilename: 'chunks/[name].[id].[chunkhash:8].js',
         publicPath: "",
         // globalObject: "this",
-        chunkFormat: "commonjs",
+        // chunkFormat: "commonjs",
         chunkLoadingGlobal: 'elmer-chunks',
         chunkLoading: 'jsonp',
-        enabledChunkLoadingTypes: ['jsonp', 'require', 'import-scripts']
     },
     optimization: {
         minimize: false,
+        runtimeChunk: {
+            name:'./script/manifest'
+        },
         splitChunks: {
-            chunks: 'all',  // 依赖都分离出来
-            name: 'vendor', // 分离出来的bundle名称，命名即output中的name
-            minChunks: 1,
-            // minChunks: 2, // 被共享的最小次数，如loadash只被引用了一次是不是将其抽离的
-          },
-         // runtimeChunk: true
+            cacheGroups: {
+                commons: {
+                    test: /\/node_modules\//,
+                    name: './script/vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+    },
+    performance: {
+        hints: "warning",
+        maxEntrypointSize: 5000 * 1024,
+        maxAssetSize: 5000 * 1024,
     },
     mode: "production"
 });

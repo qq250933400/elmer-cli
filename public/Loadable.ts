@@ -13,6 +13,7 @@ export const Loadable = (options: TypeLoadableOptions):Function => {
         }
         if(typeof options.loader === "function") {
             console.log("---开始执行请求------");
+            console.log(window.exports);
             options.loader().then((resp:any) => {
                 if(resp['__esModule']) {
                     console.log(resp.default);

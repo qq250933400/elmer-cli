@@ -47,6 +47,10 @@ export default () => {
             configuration.optimization.minimize = true;
             configuration.mode = "production";
         }
+        if(!StaticCommon.isEmpty(overrideConfig.libraryTarget)) {
+            configuration.output.libraryTarget = overrideConfig.libraryTarget;
+            configuration.output.library = overrideConfig.library;
+        }
     }
     webpack(configuration, (err, stats) => {
         if (err) {

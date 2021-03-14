@@ -6,15 +6,38 @@ const { HtmlParse } = require("elmer-virtual-dom");
 const { getCommand } = require("elmer-common/lib/BaseModule/StaticCommon");
 const parseObj = new HtmlParse();
 const devMode = process.env.NODE_ENV !== 'production'
+
 // 对babel的配置，内容同.babelrc文件
 const babelOptions = {
-    "presets": [
-        ["env", {
-            "targets": {
-                "browsers": ["last 2 versions", "safari >= 7"]
+    babelrc: false,
+    plugins: [
+        // "@babel/plugin-transform-runtime",
+        // "@babel/plugin-syntax-dynamic-import",
+        // "@babel/plugin-transform-modules-commonjs",
+        // ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        // ["@babel/plugin-proposal-class-properties", { "loose" : true }]
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-import-meta",
+        ["@babel/plugin-proposal-class-properties", { "loose": false }],
+        "@babel/plugin-proposal-json-strings"
+    ],
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                // "modules": "commonjs",
+                "targets": {
+                    "browsers": [
+                        "last 2 version",
+                        "> 1%",
+                        "iOS >= 7",
+                        "Android > 4.1",
+                        "Firefox > 20"
+                    ]
+                }
             }
-        }]
-    ]
+        ]
+    ],
 }
 
 module.exports = {
@@ -50,7 +73,7 @@ module.exports = {
             },{
                 test: /\.js$/,
                 use: [
-                    { loader: "babel-loader"},
+                    { loader: "babel-loader", options: babelOptions },
                     {
                         loader: "elmer-loader",
                         options: {
@@ -66,29 +89,7 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: {
-                            babelrc: false,
-                            plugins: [
-                                "@babel/plugin-transform-runtime",
-                                ["@babel/plugin-proposal-decorators", { "legacy": true }],
-                                ["@babel/plugin-proposal-class-properties", { "loose" : true }],
-                                "@babel/plugin-syntax-dynamic-import"
-                            ],
-                            "presets": [
-                                [
-                                    "@babel/preset-env",
-                                    {
-                                        "modules": "commonjs",
-                                        "targets": {
-                                            "browsers": [
-                                                "last 2 versions",
-                                                "safari >= 7"
-                                            ]
-                                        }
-                                    }
-                                ]
-                            ],
-                        }
+                        options: babelOptions
                     },
                     {
                         loader: 'ts-loader'
